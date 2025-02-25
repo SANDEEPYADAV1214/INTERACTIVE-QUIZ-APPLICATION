@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Learning Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header {
+            background-color: #0073e6;
+            color: white;
+            padding: 1em;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        section {
+            margin: 20px;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Welcome to E-Learning</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section id="home">
+        <h2>Featured Courses</h2>
+        <p>Explore our top courses and start learning today!</p>
+    </section>
+
+    <section id="courses">
+        <h2>All Courses</h2>
+        <ul>
+            <li><a href="course1.html">Web Development</a></li>
+            <li><a href="course2.html">Data Science</a></li>
+            <li><a href="course3.html">Machine Learning</a></li>
+        </ul>
+    </section>
+    
+    <section id="course">
+        <h2>Course Details</h2>
+        <video width="600" controls>
+            <source src="video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <p>Track your progress:</p>
+        <progress id="progressBar" value="30" max="100"></progress>
+        <button onclick="updateProgress()">Complete Lesson</button>
+    </section>
+    
+    <section id="dashboard">
+        <h2>Your Progress</h2>
+        <p>Keep track of your completed courses and achievements.</p>
+    </section>
+    
+    <footer>
+        <p>&copy; 2025 E-Learning Platform</p>
+    </footer>
+</body>
+</html>
+<script>
+    function updateProgress() {
+        let progressBar = document.getElementById("progressBar");
+        progressBar.value = Math.min(100, progressBar.value + 10);
+    }
+</script>
