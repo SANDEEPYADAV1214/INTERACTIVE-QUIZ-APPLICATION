@@ -1,0 +1,57 @@
+import React, { useState, useEffect } from "react";
+
+const ChatApp = () => {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    const newSocket = new WebSocket("ws://localhost:8080");
+    setSocket(newSocket);
+
+    newSocket.onmessage = (event) => {
+      setMessages((prevMessages) => [...prevMessages, event.data]);
+    };
+
+    return () => newSocket.close();
+  }, []);
+
+  const sendMessage = () => {
+    if (socket && input.trim()) {
+      socket.send(input);
+      setMessages((prevMessages) => [...prevMessages, `You: ${input}`]);
+      setInput("");
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+      <div className="w-full max-w-md p-4 bg-white shadow-lg rounded-lg">
+        <h2 className="text-xl font-bold mb-4">Real-Time Chat</h2>
+        <div className="h-64 overflow-y-auto border p-2 mb-4">
+          {messages.map((msg, index) => (
+            <div key={index} className="p-1 border-b">{msg}</div>
+          ))}
+        </div>
+        <div className="flex">
+          <input
+            type="text"
+            className="flex-grow p-2 border rounded-l"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type a message..."
+            onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+          />
+          <button
+            onClick={sendMessage}
+            className="bg-blue-500 text-white p-2 rounded-r hover:bg-blue-600"
+          >
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ChatApp;
