@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .quiz-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        .option {
+            display: block;
+            padding: 10px;
+            margin: 10px 0;
+            background: #ddd;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        .option:hover {
+            background: #bbb;
+        }
+        .correct {
+            background: #4CAF50 !important;
+            color: white;
+        }
+        .wrong {
+            background: #f44336 !important;
+            color: white;
+        }
+        #next-btn {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #next-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h2 id="question">Loading...</h2>
+        <div id="options"></div>
+        <p id="score">Score: 0</p>
+        <button id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+    <script>
+        const questions = [
+            { question: "What is the capital of France?", options: ["Paris", "London", "Berlin", "Madrid"], answer: "Paris" },
+            { question: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Saturn"], answer: "Mars" },
+            { question: "What is 2 + 2?", options: ["3", "4", "5", "6"], answer: "4" },
+          { question: "Which planet is known as the blue Planet?", options: ["Earth", "Mars", "Jupiter", "Saturn"], answer: "Earth" },
+          { question: "What is 2 / 2?", options: ["3", "4", "5", "6"], answer: "1" },
+        ];
+        
+        let currentQuestion = 0;
+        let score = 0;
+        
+        function loadQuestion() {
+            if (currentQuestion >= questions.length) {
+                document.querySelector('.quiz-container').innerHTML = `<h2>Quiz Over!</h2><p>Your Score: ${score}</p>`;
+                return;
+            }
+            
+            const q = questions[currentQuestion];
+            document.getElementById('question').textContent = q.question;
+            
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.classList.add('option');
+                button.onclick = () => checkAnswer(button, option, q.answer);
+                optionsContainer.appendChild(button);
+            });
+            
+            document.getElementById('next-btn').style.display = 'none';
+        }
+        
+        function checkAnswer(button, selected, correct) {
+            if (selected === correct) {
+                button.classList.add('correct');
+                score++;
+            } else {
+                button.classList.add('wrong');
+            }
+            document.getElementById('score').textContent = `Score: ${score}`;
+            document.getElementById('next-btn').style.display = 'block';
+        }
+        
+        function nextQuestion() {
+            currentQuestion++;
+            loadQuestion();
+        }
+        
+        loadQuestion();
+    </script>
+</body>
+</html>
